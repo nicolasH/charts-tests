@@ -1,0 +1,116 @@
+<html>
+    <head>       
+        <script language="javascript" type="text/javascript" src="flot/jquery.js"></script>
+	<script language="javascript" type="text/javascript" src="flot/jquery.flot.js"></script>
+        <script language="javascript" type="text/javascript" src="flot/jquery.flot.pie.js"></script>
+        <script language="javascript" type="text/javascript" src="flot/jquery.flot.stack.js"></script>
+        <style type="text/css">
+		* {
+		  font-family: sans-serif;
+		}
+		
+		body{
+			padding: 0 1em 1em 1em;
+		}
+		
+		div.graph{
+			width: 500px;
+			height: 300px;
+			display:block;
+			#border: 1px dashed gainsboro;
+		}
+                div.column{
+                        width:500px;
+                }
+        </style>
+    </head>
+    <body>
+        <h1>Flot</h1>
+        <div class="column">
+        <h3>Stacked columns:</h3>
+
+        <div id="stacked" class="graph"></div>
+        <div>
+        source: <a href="http://people.iola.dk/olau/flot/examples/stacking.html"> Flot Stacking example</a>
+
+        <br/>
+        <br/>
+
+        <h3>Pie Chart:</h3>        
+        <div id="pie" class="graph"></div>
+        source: <a href="http://people.iola.dk/olau/flot/examples/pie.html"> Flot Pie example</a>
+        </div>
+
+        <script type="text/javascript">
+            ///////////////////////////////
+            //// Pie
+            ///////////////////////////////
+            var dataurl = "pie.json";
+            
+            function cantGetPie(){
+                alert("failed getting the pie");
+            }
+            // then fetch the data with jQuery
+            function onPieDataReceived(series) {
+                options = {
+                    series:{
+                        pie: {
+                            show: true,
+                            radius: 1,
+                            label: {
+                                show: true,
+                                radius: 3/4,
+                                formatter: function(label, series){
+                                return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">'+label+'<br/>'+Math.round(series.percent)+'%</div>';
+                                    },
+                                background: { opacity: 0.5 }
+                            }
+                        }
+                    },
+                    legend: {
+                        show: false
+                    }
+                }
+                $.plot("#pie", series, options);
+                }
+
+            $.ajax({
+                url: dataurl,
+                method: 'GET',
+                dataType: 'json',
+                success: onPieDataReceived,
+                failure: cantGetPie
+            });
+        </script>
+        <script type="text/javascript">
+            ///////////////////////////////
+            //// Stacked
+            ///////////////////////////////
+            var dataurl = "stacked.json";
+            
+            function cantGetStack(){
+                alert("failed getting the Stack data");
+            }
+
+            function onStackedDataReceived(series) {
+                var stack = true, bars = false, lines = true, steps = true;
+                var options = {
+                    series: {
+                        stack: stack,
+                        lines: { show: lines, fill: true, steps: steps },
+                        },
+                }
+                $.plot($("#stacked"), series, options);
+            }
+            $.ajax({
+                url: dataurl,
+                method: 'GET',
+                dataType: 'json',
+                success: onStackedDataReceived,
+                failure: cantGetStack
+            });
+        </script>
+
+
+    </body>
+</html>
