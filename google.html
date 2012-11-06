@@ -58,6 +58,44 @@
             }     
     </script>
 
+    <script type="text/javascript">           
+            ///////////////////////////////
+            //// Stacked
+            //////////////////////////////
+            var dataurl = 'stacked-google.json';
+
+            var data;
+
+            function onStackedDataReceived(dataStacked) {
+                alert(dataStacked);
+                data = dataStacked;
+                alert('drawing Stacked');
+                var dt = new google.visualization.DataTable(data,0.6);
+                var options = {
+                    title: '% of liga-inan participant by pregnancy tirmester'
+                };
+                chart.draw(dt, options);
+            }
+
+            google.load("visualization", "1", {packages:["corechart"]});
+            google.setOnLoadCallback(fetchStackedData);
+            
+            function cantGetStacked(){
+                alert("failed getting the Stacked data");
+            }
+                        
+            function fetchStackedData(){
+                var jsonData = $.ajax({
+                    url: dataurl,
+                    dataType:"json",
+                    async: false
+                    }).responseText;
+               //Create our data table out of JSON data loaded from server.
+               var data = new google.visualization.DataTable(jsonData);
+               var chart = new google.visualization.ColumnChart(document.getElementById('stacked'));
+               chart.draw(data, {width: 400, height: 240, isStacked: true});
+            }     
+    </script>
 
   </body>
 </html>
