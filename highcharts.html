@@ -1,0 +1,161 @@
+<html>
+    <head>
+        <script src="jquery-1.8.2.min.js"></script>
+        <script src="highcharts/js/highcharts.js"></script>
+        <script src="highcharts/js/modules/exporting.js"></script>
+    </head>
+    <body>        
+        <h1>HighCharts</h1>
+        <div class="column">
+            <h3>Pie Chart:</h3>           
+            <div id="pie" class="graph"></div>
+            source: 
+            <br/>
+            <br/>
+            <h3>Stacked columns:</h3>
+            
+            <div id="stacked" class="graph"></div>
+            source: 
+                
+        </div>
+        
+        <script type="text/javascript">
+            ///////////////////////////////
+            //// Stacked
+            ///////////////////////////////
+            function cantGetStack(){
+                alert("failed getting the Stack data");
+            }
+
+            var dataurl = "stacked-highcharts.json";
+            // define the options
+            function onStackedDataReceived(data){
+                series = data;
+                data
+    
+                var chart;
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'stacked',
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Stacked column chart'
+                    },
+                    //xAxis: {
+                        //categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+                    //},
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: '# of women at week of pregnancy'
+                        },
+                        stackLabels: {
+                            enabled: true,
+                            style: {
+                                fontWeight: 'bold',
+                                color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                            }
+                        }
+                    },
+                    legend: {
+                        align: 'right',
+                        x: -100,
+                        verticalAlign: 'top',
+                        y: 20,
+                        floating: true,
+                        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || 'white',
+                        borderColor: '#CCC',
+                        borderWidth: 1,
+                        shadow: false
+                    },
+                    tooltip: {
+                        formatter: function() {
+                            return '<b>'+ this.x +'</b><br/>'+
+                                this.series.name +': '+ this.y +'<br/>'+
+                                'Total: '+ this.point.stackTotal;
+                        }
+                    },
+                    plotOptions: {
+                        column: {
+                            stacking: 'normal',
+                            dataLabels: {
+                                enabled: true,
+                                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                            }
+                        }
+                    },
+                    series: series
+                });
+            }
+        
+        $.ajax({
+            url: dataurl,
+            method: 'GET',
+            dataType: 'json',
+            success: onStackedDataReceived,
+            failure: cantGetStack
+        });   
+        </script>
+        <script type="text/javascript">
+            
+            ///////////////////////////////
+            //// Pie
+            //////////////////////////////
+            function cantGetPie(){
+                alert("failed getting the Pie data");
+            }
+
+            function canGetPie(data){
+                alert("Got the pie data"+data);
+            }
+            var dataurl = "pie-highcharts.json";
+            $.ajax({
+                url: dataurl,
+                method: 'GET',
+                dataType: 'json',
+                success: canGetPie,//onPieDataReceived,
+                failure: cantGetPie
+            });
+            
+            function onPieDataReceived(series){
+                alert(series);
+                var pie = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'pie',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    title: {
+                        text: 'percentage of liga-inan participant by pregnancy quarter'
+                    },
+                    tooltip: {
+                	    pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+                    	percentageDecimals: 1
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                color: '#000000',
+                                connectorColor: '#000000',
+                                formatter: function() {
+                                    return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
+                                }
+                            }
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Pregnancy quarters',
+                        data: series
+                        }]
+                });
+            }
+
+	</script>
+    </body>
+</html>
