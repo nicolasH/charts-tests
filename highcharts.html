@@ -3,22 +3,78 @@
         <script src="jquery-1.8.2.min.js"></script>
         <script src="highcharts/js/highcharts.js"></script>
         <script src="highcharts/js/modules/exporting.js"></script>
+        <link rel="stylesheet" type="text/css" href="index.css">
+
     </head>
     <body>        
         <h1>HighCharts</h1>
         <div class="column">
-            <h3>Pie Chart:</h3>           
-            <div id="pie" class="graph"></div>
-            source: 
-            <br/>
-            <br/>
             <h3>Stacked columns:</h3>
             
             <div id="stacked" class="graph"></div>
-            source: 
+            source: <a href="http://www.highcharts.com/demo/column-stacked">HighChart Stacked Column chart</a>
+            <br/>
+            <br/>
+            <h3>Pie Chart:</h3>           
+            <div id="pie" class="graph"></div>
+            source:  <a href="http://www.highcharts.com/demo/pie-basic">HighChart Pie example (basic)</a>
                 
         </div>
         
+        <script type="text/javascript">
+            ///////////////////////////////
+            //// Pie
+            //////////////////////////////
+            function cantGetPie(){
+                alert("failed getting the Pie data");
+            }
+
+            function onPieDataReceived(series){
+                var pie = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'pie',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    title: {
+                        text: 'percentage of liga-inan participant by pregnancy trimester'
+                    },
+                    tooltip: {
+                	    pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+                    	percentageDecimals: 1
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                color: '#000000',
+                                connectorColor: '#000000',
+                                formatter: function() {
+                                    return '<b>'+ this.point.name +'</b>: '+ this.percentage.toFixed(0) +' %';
+                                }
+                            }
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Pregnancy quarters',
+                        data: series
+                        }]
+                });
+            }
+            var dataurl = "pie-highcharts.json";
+            $.ajax({
+                url: dataurl,
+                method: 'GET',
+                dataType: 'json',
+                success: onPieDataReceived,
+                failure: cantGetPie
+            });
+
+        </script>
         <script type="text/javascript">
             ///////////////////////////////
             //// Stacked
@@ -95,67 +151,7 @@
             dataType: 'json',
             success: onStackedDataReceived,
             failure: cantGetStack
-        });   
+        });
         </script>
-        <script type="text/javascript">
-            
-            ///////////////////////////////
-            //// Pie
-            //////////////////////////////
-            function cantGetPie(){
-                alert("failed getting the Pie data");
-            }
-
-            function canGetPie(data){
-                alert("Got the pie data"+data);
-            }
-            var dataurl = "pie-highcharts.json";
-            $.ajax({
-                url: dataurl,
-                method: 'GET',
-                dataType: 'json',
-                success: canGetPie,//onPieDataReceived,
-                failure: cantGetPie
-            });
-            
-            function onPieDataReceived(series){
-                alert(series);
-                var pie = new Highcharts.Chart({
-                    chart: {
-                        renderTo: 'pie',
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false
-                    },
-                    title: {
-                        text: 'percentage of liga-inan participant by pregnancy quarter'
-                    },
-                    tooltip: {
-                	    pointFormat: '{series.name}: <b>{point.percentage}%</b>',
-                    	percentageDecimals: 1
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                color: '#000000',
-                                connectorColor: '#000000',
-                                formatter: function() {
-                                    return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
-                                }
-                            }
-                        }
-                    },
-                    series: [{
-                        type: 'pie',
-                        name: 'Pregnancy quarters',
-                        data: series
-                        }]
-                });
-            }
-
-	</script>
     </body>
 </html>

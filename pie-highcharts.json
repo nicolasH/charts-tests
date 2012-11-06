@@ -1,6 +1,6 @@
 [
-    { name: "First Trimester", y: 5},
-    { name: "Second Trimester", y: 10},
-    { name: "Third Trimester", y: 13},
-    { name: "late",y: 2}
+    ["First Trimester",  5],
+    ["Second Trimester",  10],
+    ["Third Trimester",  13],
+    ["late",  2]
 ]

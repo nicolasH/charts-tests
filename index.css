@@ -1,0 +1,17 @@
+* {
+  font-family: sans-serif;
+}
+
+body{
+  padding: 0 1em 1em 1em;
+}
+
+div.graph{
+  width: 500px;
+  height: 300px;
+  display:block;
+  #border: 1px dashed gainsboro;
+}
+div.column{
+  width:500px;
+}

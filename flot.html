@@ -1,28 +1,10 @@
 <html>
-    <head>       
+    <head>    
+        <link rel="stylesheet" type="text/css" href="index.css"/>
         <script language="javascript" type="text/javascript" src="flot/jquery.js"></script>
-	<script language="javascript" type="text/javascript" src="flot/jquery.flot.js"></script>
+        <script language="javascript" type="text/javascript" src="flot/jquery.flot.js"></script>
         <script language="javascript" type="text/javascript" src="flot/jquery.flot.pie.js"></script>
-        <script language="javascript" type="text/javascript" src="flot/jquery.flot.stack.js"></script>
-        <style type="text/css">
-		* {
-		  font-family: sans-serif;
-		}
-		
-		body{
-			padding: 0 1em 1em 1em;
-		}
-		
-		div.graph{
-			width: 500px;
-			height: 300px;
-			display:block;
-			#border: 1px dashed gainsboro;
-		}
-                div.column{
-                        width:500px;
-                }
-        </style>
+        <script language="javascript" type="text/javascript" src="flot/jquery.flot.stack.js"></script>        
     </head>
     <body>
         <h1>Flot</h1>
@@ -45,7 +27,7 @@
             ///////////////////////////////
             //// Pie
             ///////////////////////////////
-            var dataurl = "pie.json";
+            var dataurl = "pie-flot.json";
             
             function cantGetPie(){
                 alert("failed getting the pie");
@@ -86,7 +68,7 @@
             ///////////////////////////////
             //// Stacked
             ///////////////////////////////
-            var dataurl = "stacked.json";
+            var dataurl = "stacked-flot.json";
             
             function cantGetStack(){
                 alert("failed getting the Stack data");
@@ -110,7 +92,5 @@
                 failure: cantGetStack
             });
         </script>
-
-
     </body>
 </html>
