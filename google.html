@@ -27,6 +27,17 @@
 
             var data;
 
+            function onPieDataReceived(dataPie) {
+                alert(dataPie);
+                data = dataPie;
+                alert('drawing Pie');
+                var dt = new google.visualization.DataTable(data,0.6);
+                var options = {
+                    title: '% of liga-inan participant by pregnancy tirmester'
+                };
+                chart.draw(dt, options);
+            }
+
             google.load("visualization", "1", {packages:["corechart"]});
             google.setOnLoadCallback(fetchPieData);
             
@@ -34,26 +45,19 @@
                 alert("failed getting the Pie data");
             }
                         
-            function fetchPieData(){               
+            function fetchPieData(){
                 var jsonData = $.ajax({
                     url: dataurl,
                     dataType:"json",
                     async: false
                     }).responseText;
-                // Create our data table out of JSON data loaded from server.
-                var data = new google.visualization.DataTable(jsonData);
-                var chart = new google.visualization.PieChart(document.getElementById('pie'));
-                chart.draw(data, {width: 400, height: 240});
-            }
-
-                       
-          //{width: 400, height: 240}
-    
-
-
-      
+               //Create our data table out of JSON data loaded from server.
+               var data = new google.visualization.DataTable(jsonData);
+               var chart = new google.visualization.PieChart(document.getElementById('pie'));
+               chart.draw(data, {width: 400, height: 240});
+            }     
     </script>
-  </head>
+
 
   </body>
 </html>
