@@ -5,96 +5,61 @@
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     </head>
     <body>        
-        <h1>HighCharts</h1>
+        <h1>Google Chart Tools</h1>
         <div class="column">
             <h3>Stacked columns:</h3>
             
             <div id="stacked" class="graph"></div>
-            source: <a href="http://www.highcharts.com/demo/column-stacked">HighChart Stacked Column chart</a>
+            source: <a href="https://developers.google.com/chart/interactive/docs/gallery/columnchart">Google Chart Tools: Column Chart visualization</a>
             <br/>
             <br/>
             <h3>Pie Chart:</h3>           
             <div id="pie" class="graph"></div>
-            source:  <a href="http://www.highcharts.com/demo/pie-basic">HighChart Pie example (basic)</a>                
+            source:  <a
+            href="https://developers.google.com/chart/interactive/docs/gallery/piechart">Google Chart Tools: Pie Chart visualization</a> 
         </div>
 
         <script type="text/javascript">
             
-            ///////////////////////////////
-            //// Pie
-            //////////////////////////////
-            var dataurl = 'pie-google.json';
-
-            var data;
-
-            function onPieDataReceived(dataPie) {
-                alert(dataPie);
-                data = dataPie;
-                alert('drawing Pie');
-                var dt = new google.visualization.DataTable(data,0.6);
-                var options = {
-                    title: '% of liga-inan participant by pregnancy tirmester'
-                };
-                chart.draw(dt, options);
-            }
-
-            google.load("visualization", "1", {packages:["corechart"]});
-            google.setOnLoadCallback(fetchPieData);
+            var dataurl_pie = 'pie-google.json';
+            var dataurl_stacked = 'stacked-google.json';
             
-            function cantGetPie(){
-                alert("failed getting the Pie data");
-            }
-                        
-            function fetchPieData(){
+            google.load("visualization", "1", {packages:["corechart"]});
+            google.setOnLoadCallback(fetchData);
+                                    
+            function fetchData(){
+                ///////////////////////////////
+                //// Pie
+                //////////////////////////////
+
                 var jsonData = $.ajax({
-                    url: dataurl,
+                    url: dataurl_pie,
                     dataType:"json",
                     async: false
                     }).responseText;
-               //Create our data table out of JSON data loaded from server.
-               var data = new google.visualization.DataTable(jsonData);
-               var chart = new google.visualization.PieChart(document.getElementById('pie'));
-               chart.draw(data, {width: 400, height: 240});
-            }     
-    </script>
+                //Create our data table out of JSON data loaded from server.
+                var data = new google.visualization.DataTable(jsonData);
+                var chart = new google.visualization.PieChart(document.getElementById('pie'));
+                chart.draw(data, {width: 500, height: 300});
 
-    <script type="text/javascript">           
-            ///////////////////////////////
-            //// Stacked
-            //////////////////////////////
-            var dataurl = 'stacked-google.json';
-
-            var data;
-
-            function onStackedDataReceived(dataStacked) {
-                alert(dataStacked);
-                data = dataStacked;
-                alert('drawing Stacked');
-                var dt = new google.visualization.DataTable(data,0.6);
-                var options = {
-                    title: '% of liga-inan participant by pregnancy tirmester'
-                };
-                chart.draw(dt, options);
-            }
-
-            google.load("visualization", "1", {packages:["corechart"]});
-            google.setOnLoadCallback(fetchStackedData);
-            
-            function cantGetStacked(){
-                alert("failed getting the Stacked data");
-            }
-                        
-            function fetchStackedData(){
-                var jsonData = $.ajax({
-                    url: dataurl,
+                ///////////////////////////////
+                //// Stacked
+                //////////////////////////////               
+                jsonData = $.ajax({
+                    url: dataurl_stacked,
                     dataType:"json",
                     async: false
                     }).responseText;
-               //Create our data table out of JSON data loaded from server.
-               var data = new google.visualization.DataTable(jsonData);
-               var chart = new google.visualization.ColumnChart(document.getElementById('stacked'));
-               chart.draw(data, {width: 400, height: 240, isStacked: true});
+                //Create our data table out of JSON data loaded from server.
+                var data = new google.visualization.DataTable(jsonData);
+                var chart = new google.visualization.ColumnChart(document.getElementById('stacked'));
+                chart.draw(data, {width: 500, height: 300, isStacked: true});
+
+               
+               
             }     
+
+
     </script>
 
   </body>
