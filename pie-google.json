@@ -1,0 +1,11 @@
+{
+    "cols": [
+        {"id": "", "label": "Legend", "type":"string"},
+        {"id": "", "label": "Percents", "type":"number"},
+    ],
+    "rows": [ {"c":[{"v":"First Trimester"},{"v":5}]},
+              {"c":[{"v":"Second Trimester"},{"v": 10}]},
+              {"c":[{"v":"Third Trimester"},{"v": 13}]},
+              {"c":[{"v":"Late"},      {"v": 2}]}
+            ]
+}
