@@ -17,63 +17,15 @@
             <h3>Pie Chart:</h3>           
             <div id="pie" class="graph"></div>
             source:  <a href="http://www.highcharts.com/demo/pie-basic">HighChart Pie example (basic)</a>
-                
+    
+            <br/>
+            <br/>
+            <h3>Doughnut Chart:</h3>
+            <div id="doughnut" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+             source:  <a href="http://jsfiddle.net/HpdwR/45/">HighChart Doughnut example with a hole</a>
+            <div id="doughnut_number">2012</div>
         </div>
-        
-        <script type="text/javascript">
-            ///////////////////////////////
-            //// Pie
-            //////////////////////////////
-            function cantGetPie(){
-                alert("failed getting the Pie data");
-            }
 
-            function onPieDataReceived(series){
-                var pie = new Highcharts.Chart({
-                    chart: {
-                        renderTo: 'pie',
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false
-                    },
-                    title: {
-                        text: 'percentage of liga-inan participant by pregnancy trimester'
-                    },
-                    tooltip: {
-                	    pointFormat: '{series.name}: <b>{point.percentage}%</b>',
-                    	percentageDecimals: 1
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                color: '#000000',
-                                connectorColor: '#000000',
-                                formatter: function() {
-                                    return '<b>'+ this.point.name +'</b>: '+ this.percentage.toFixed(0) +' %';
-                                }
-                            }
-                        }
-                    },
-                    series: [{
-                        type: 'pie',
-                        name: 'Pregnancy quarters',
-                        data: series
-                        }]
-                });
-            }
-            var dataurl = "pie-highcharts.json";
-            $.ajax({
-                url: dataurl,
-                method: 'GET',
-                dataType: 'json',
-                success: onPieDataReceived,
-                failure: cantGetPie
-            });
-
-        </script>
         <script type="text/javascript">
             ///////////////////////////////
             //// Stacked
@@ -152,5 +104,112 @@
             failure: cantGetStack
         });
         </script>
+        
+        <script type="text/javascript">
+            ///////////////////////////////
+            //// Pie
+            //////////////////////////////
+            function cantGetPie(){
+                alert("failed getting the Pie data");
+            }
+
+            function onPieDataReceived(series){
+                var pie = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'pie',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    title: {
+                        text: 'percentage of liga-inan participant by pregnancy trimester'
+                    },
+                    tooltip: {
+                	    pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+                    	percentageDecimals: 1
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                color: '#000000',
+                                connectorColor: '#000000',
+                                formatter: function() {
+                                    return '<b>'+ this.point.name +'</b>: '+ this.percentage.toFixed(0) +' %';
+                                }
+                            }
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Pregnancy quarters',
+                        data: series
+                        }]
+                });
+            }
+            var dataurl = "pie-highcharts.json";
+            $.ajax({
+                url: dataurl,
+                method: 'GET',
+                dataType: 'json',
+                success: onPieDataReceived,
+                failure: cantGetPie
+            });
+
+        </script>
+
+        <script type="text/javascript">
+        ///////////////////////////////
+        //// Doughnut
+        ///////////////////////////////
+
+            function cantGetPie(){
+                alert("failed getting the Pie data");
+            }
+
+            function onPieDataReceived(series){
+                var pie = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'doughnut',
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Browser market share, April, 2011'
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Total percent market share'
+                        }
+                    },
+                    plotOptions: {
+                        pie: {
+                            shadow: false
+                        }
+                    },
+                    tooltip: {
+                        formatter: function() {
+                            return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+                        }
+                    },
+                    series: [{
+                        name: 'Browsers',
+                        data: [["Firefox",6],["MSIE",4],["Chrome",7]],
+                        size: '60%',
+                        innerSize: '33%',
+                        showInLegend:true,
+                        dataLabels: {
+                            enabled: false
+                        }
+                    }]
+                });
+            }
+            var dataurl = "pie-highcharts.json";
+            $.ajax({
+                success: onPieDataReceived,
+                failure: cantGetPie
+            });
+    </script>
     </body>
 </html>

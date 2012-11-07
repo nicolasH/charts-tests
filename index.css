@@ -12,6 +12,16 @@ div.graph{
   display:block;
   #border: 1px dashed gainsboro;
 }
+
 div.column{
   width:500px;
+}
+
+div#doughnut_number{
+	font-size: 2em;
+	color: #666666;
+	position: absolute;
+	bottom: -463px;
+	left: 239px;
+	z-index: 2;
 }
