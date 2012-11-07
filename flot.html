@@ -13,8 +13,9 @@
           
           <div id="stacked" class="graph"></div>
           <div>
-            source: <a href="http://people.iola.dk/olau/flot/examples/stacking.html"> Flot Stacking example</a>
-
+            stacked columns source: <a href="http://people.iola.dk/olau/flot/examples/stacking.html"> Flot Stacking example</a><br/>
+            hover source: <a href="http://people.iola.dk/olau/flot/examples/interacting.html">Flot Interacting example</a><br/>
+            with help from: <a href="http://stackoverflow.com/questions/3476349/flot-stacked-bar-chart-and-displaying-bar-values-on-mouse-over">Peter Hilton on Stack Overflow</a><br/>
             <br/>
             <br/>
 
@@ -74,6 +75,23 @@
                 alert("failed getting the Stack data");
             }
 
+            function showTooltip(x, y, contents) {
+
+            // unfortunatley can't be put in the CSS
+        $('<div id="tooltip">' + contents + '</div>').css( {
+            position: 'absolute',
+            display: 'none',
+            top: y - 30,
+            left: x + 5,
+            border: '2px solid #66f',
+            'border-radius': '5px',
+            padding: '2px',
+            'background-color': '#fff',
+            opacity: 0.75,
+            'font-size': '10pt'
+        }).appendTo("body").fadeIn(200);
+    }
+            var previousPoint = null;
             function onStackedDataReceived(series) {
                 var stack = true, bars = true, lines = false, steps = true;
                 var options = {
@@ -85,7 +103,24 @@
                     grid: { hoverable: true }
                 }
                 $.plot($("#stacked"), series, options);
+                $("#stacked").bind("plothover", function (event, pos, item) {
+                    if (item) {
+                        if (previousPoint != item.datapoint) {
+                            previousPoint = item.datapoint;
+
+                            $("#tooltip").remove();
+                            var x = item.datapoint[0],
+                            y = item.datapoint[1] - item.datapoint[2];
+                            // ! can't get the sum when not hovering over the top-most stacked item.
+                            showTooltip(item.pageX, item.pageY, "Week: " + item.datapoint[0] + "<br/>" + item.series.label + ": "+ y + "<br/>" );
+                        }
+                    } else {
+                        $("#tooltip").remove();
+                        previousPoint = null;
+                    }
+               });
             }
+
             $.ajax({
                 url: dataurl,
                 method: 'GET',
@@ -93,6 +128,7 @@
                 success: onStackedDataReceived,
                 failure: cantGetStack
             });
+
         </script>
     </body>
 </html>

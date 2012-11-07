@@ -40,7 +40,7 @@
                 //Create our data table out of JSON data loaded from server.
                 var data = new google.visualization.DataTable(jsonData);
                 var chart = new google.visualization.PieChart(document.getElementById('pie'));
-                chart.draw(data, {width: 500, height: 300});
+                chart.draw(data, {});
 
                 ///////////////////////////////
                 //// Stacked
@@ -53,7 +53,7 @@
                 //Create our data table out of JSON data loaded from server.
                 var data = new google.visualization.DataTable(jsonData);
                 var chart = new google.visualization.ColumnChart(document.getElementById('stacked'));
-                chart.draw(data, {width: 500, height: 300, isStacked: true});
+                chart.draw(data, {isStacked: true});
 
                
                
