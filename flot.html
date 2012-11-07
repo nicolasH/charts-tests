@@ -45,7 +45,7 @@
                                 formatter: function(label, series){
                                 return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">'+label+'<br/>'+Math.round(series.percent)+'%</div>';
                                     },
-                                background: { opacity: 0.5 }
+                                background: { opacity: 0 }
                             }
                         }
                     },
@@ -75,12 +75,14 @@
             }
 
             function onStackedDataReceived(series) {
-                var stack = true, bars = false, lines = true, steps = true;
+                var stack = true, bars = true, lines = false, steps = true;
                 var options = {
                     series: {
                         stack: stack,
                         lines: { show: lines, fill: true, steps: steps },
+                        bars: { show: bars, barWidth: 0.6 }
                         },
+                    grid: { hoverable: true }
                 }
                 $.plot($("#stacked"), series, options);
             }
